@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+  <meta charset="UTF-8">
+  <title>sign up form</title>
+
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha/css/bootstrap.min.css'>
+<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,300'>
+<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto:400,700,300'>
+<link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css'>
+
+      <link rel="stylesheet" href="css/style.css">
+
+  
+</head>
+
+<body>
+
+
+
+  <div class="signup__container">
+  <div class="container__child signup__thumbnail">
+    <div class="thumbnail__logo">
+      
+    </div>
+    <div class="thumbnail__content text-center">
+      <h1 class="heading--primary">Welcome to Humanitarian Aid Appeal Portal</h1>
+      <br><br></b><h2 class="heading--primary">Admin Panel</h2>
+    </div>
+    <div class="thumbnail__links">
+      
+    </div>
+    <div class="signup__overlay"></div>
+  </div>
+  <div class="container__child signup__form">
+    <div action="#">
+      <!-- <div class="form-group">
+        <label for="username">Username</label>
+        <input class="form-control" type="text" name="username" id="username" placeholder="username" required />
+      </div> -->
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input class="form-control" id="email" type="email" name="email">
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input class="form-control" type="password" name="password" id="password">
+      </div>
+      <div class="form-group">
+  <label for="sel1">Select User</label>
+  <select class="form-control" id="sel">
+    <option>Organization</option>
+    <option>Volunteer</option>
+    <option>Operation Manager</option>
+  </select>
+</div>
+      <div  class="m-t-lg">
+        <button id="signup" class="btn btn--form"> Register</button> 
+      </div>
+    </div>  
+  </div>
+</div>
+<script src="https://www.gstatic.com/firebasejs/5.10.0/firebase.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.10.0/firebase-app.js"></script>
+
+  <!-- Add Firebase products that you want to use -->
+  <script src="https://www.gstatic.com/firebasejs/5.10.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.10.0/firebase-database.js"></script>
+
+
+<script src="https://www.gstatic.com/firebasejs/5.10.0/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyBMQww2dkQuvD5YIPBIKHIcbto9o5dCgCQ",
+    authDomain: "humanitarianaidappealportal.firebaseapp.com",
+    databaseURL: "https://humanitarianaidappealportal.firebaseio.com",
+    projectId: "humanitarianaidappealportal",
+    storageBucket: "humanitarianaidappealportal.appspot.com",
+    messagingSenderId: "98419384979"
+  };
+  firebase.initializeApp(config);
+
+
+
+  
+
+  /*firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        // [START_EXCLUDE]
+        if (errorCode == 'auth/weak-password') {
+          alert('The password is too weak.');
+        } else {
+          alert(errorMessage);
+        }
+        console.log(error);
+        // [END_EXCLUDE]
+      });*/
+  const txtEmail=document.getElementById("email");
+  const txtPass=document.getElementById("password");
+
+  var sel = document.getElementById('sel');
+
+  
+
+  signup.addEventListener('click',e=>{
+    
+    const email=txtEmail.value;
+    const pass=txtPass.value;
+
+    var strUser = sel.options[sel.selectedIndex].value;
+    
+
+    firebase.auth().createUserWithEmailAndPassword(email, pass).catch(function(error) {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        // [START_EXCLUDE]
+        if (errorCode == 'auth/weak-password') {
+          alert('The password is too weak.');
+        } else {
+          alert(errorMessage);
+        }
+        console.log(error);
+        // [END_EXCLUDE]
+      });
+    firebase.auth().onAuthStateChanged(function(user) {
+    if (user) {
+      if(strUser=="Volunteer")
+      {
+        firebase.database().ref('users').child(user.uid).set({
+          
+          designation: "Volunteer"});
+        alert("User Registered");
+      }
+      if(strUser=="Organization")
+      {
+        alert("User Registered");
+        firebase.database().ref('users').child(user.uid).set({
+        
+          designation: "Organization"});
+      }
+      if(strUse=="Operation Manager")
+      {
+        alert("User Registered");
+        firebase.database().ref('users').child(user.uid).set({
+        
+          designation: "Operation Manager"});
+      }
+    /*
+    
+        if(opman1.checked==true)
+          designation: "Operation Manager"
+        if(org1.checked==true)
+          designation: "Organization"*/
+  
+    // ...
+    }
+   else {
+    // User is signed out.
+    // ...
+  }
+});
+    
+  });
+  
+</script>
+  
+  
+
+</body>
+
+</html>
