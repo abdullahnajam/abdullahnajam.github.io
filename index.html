@@ -45,6 +45,10 @@
         <input class="form-control" type="text" name="username" id="username" placeholder="username" required />
       </div> -->
       <div class="form-group">
+        <label for="username">Username</label>
+        <input class="form-control" id="username" type="text" name="username">
+      </div>
+      <div class="form-group">
         <label for="email">Email</label>
         <input class="form-control" id="email" type="email" name="email">
       </div>
@@ -106,6 +110,7 @@
       });*/
   const txtEmail=document.getElementById("email");
   const txtPass=document.getElementById("password");
+  const txtname=document.getElementById("username");
 
   var sel = document.getElementById('sel');
 
@@ -115,6 +120,7 @@
     
     const email=txtEmail.value;
     const pass=txtPass.value;
+    const name=txtname.value;
 
     var strUser = sel.options[sel.selectedIndex].value;
     
@@ -134,26 +140,28 @@
       });
     firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
+      alert("User Registered");
       if(strUser=="Volunteer")
       {
-        firebase.database().ref('users').child(user.uid).set({
+        firebase.database().ref('UserData').child(user.uid).set({
           
-          designation: "Volunteer"});
-        alert("User Registered");
+          designation: "Volunteer",
+          username: name});
+        
       }
       if(strUser=="Organization")
       {
-        alert("User Registered");
-        firebase.database().ref('users').child(user.uid).set({
+        firebase.database().ref('UserData').child(user.uid).set({
         
-          designation: "Organization"});
+          designation: "Organization",
+          username: name});
       }
-      if(strUse=="Operation Manager")
+      if(strUser=="Operation Manager")
       {
-        alert("User Registered");
-        firebase.database().ref('users').child(user.uid).set({
+        firebase.database().ref('UserData').child(user.uid).set({
         
-          designation: "Operation Manager"});
+          designation: "Operation Manager",
+          username: name});
       }
     /*
     
